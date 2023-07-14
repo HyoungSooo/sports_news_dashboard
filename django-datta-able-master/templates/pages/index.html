@@ -1,0 +1,148 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block content %}
+  <!-- [ Main Content ] start -->
+  <div class="row">
+    <!--[ daily sales section ] start-->
+    <div class="col-md-6 col-xl-4">
+      <div class="card daily-sales">
+        <div class="card-block">
+          <h6 class="mb-4">Today</h6>
+          <div class="row d-flex align-items-center">
+            <div class="col-9">
+              <h3 class="f-w-300 d-flex align-items-center m-b-0">{{ today }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ daily sales section ] end-->
+    <!--[ Monthly  sales section ] starts-->
+    <div class="col-md-6 col-xl-4">
+      <div class="card Monthly-sales">
+        <div class="card-block">
+          <h6 class="mb-4">Today Total Crawl</h6>
+          <div class="row d-flex align-items-center">
+            <div class="col-9">
+              <h3 class="f-w-300 d-flex align-items-center  m-b-0">{{ today_total }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ Monthly  sales section ] end-->
+    <!--[ year  sales section ] starts-->
+    <div class="col-md-12 col-xl-4">
+      <div class="card yearly-sales">
+        <div class="card-block">
+          <h6 class="mb-4">Total</h6>
+          <div class="row d-flex align-items-center">
+            <div class="col-9">
+              <h3 class="f-w-300 d-flex align-items-center  m-b-0">{{total}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ year  sales section ] end-->
+    <!--[ Recent Users ] start-->
+    <div class="col-xl-8 col-md-6">
+      <div class="card Recent-Users">
+        <div class="card-header">
+          <h5>Recent News</h5>
+        </div>
+        <div class="card-block px-0 py-3">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tbody>
+                {% for data in recent %}
+                <tr class="unread">
+                  <td>
+                    <h6 class="mb-1">{{data.title}}</h6>
+                  </td>
+                  <td><a href="{{data.url}}" class="label theme-bg2 text-white f-12">See</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ Recent Users ] end-->
+
+    <!-- [ statistics year chart ] start -->
+    <div class="col-xl-4 col-md-6">
+      <div class="card card-event">
+        <div class="card-block">
+          <div class="row align-items-center justify-content-center">
+            <div class="col">
+              <h5 class="m-0">Crawl</h5>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary mt-3" title="btn btn-primary" onclick="doAction()">Go</button>
+        </div>
+      </div>
+      <div class="card card-event">
+        <div class="card-block">
+          <div class="row align-items-center justify-content-center">
+            <div class="col">
+              <h5 class="m-0">Sync</h5>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary mt-3" title="btn btn-primary" onclick="doSync()">Go</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-block border-bottom">
+          <div class="row d-flex align-items-center">
+            <div class="col-auto">
+              <i class="feather icon-zap f-30 text-c-green"></i>
+            </div>
+            <div class="col">
+              <h3 class="f-w-300">{{sync}}</h3>
+              <span class="d-block text-uppercase">Sync</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <div class="row d-flex align-items-center">
+            <div class="col-auto">
+              <i class="feather icon-map-pin f-30 text-c-blue"></i>
+            </div>
+            <div class="col">
+              <h3 class="f-w-300">{{crawl}}</h3>
+              <span class="d-block text-uppercase">Crawl</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ statistics year chart ] end -->
+   
+  </div>
+  <!-- [ Main Content ] end -->
+
+  
+ <script>
+    function doAction() {
+      $.ajax({
+          url: "/api/crawling", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+          method: "GET",   // HTTP 요청 메소드(GET, POST 등)
+          async: true, //비동기 여부
+      })
+    }  
+
+    function doSync() {
+      $.ajax({
+          url: "/api/pipeline/es", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+          method: "GET",   // HTTP 요청 메소드(GET, POST 등)
+          async: true, //비동기 여부
+      })
+    }  
+  </script>
+
+{% endblock content %}

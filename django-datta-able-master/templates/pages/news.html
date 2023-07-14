@@ -1,0 +1,75 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pt-2 relative mx-auto text-gray-600">
+        <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+          type="search" name="search" placeholder="Search">
+        <button type="submit" class="absolute right-0 top-0 mt-5 mr-4" onclick="doAction()">go</button>
+    </div>
+    <div class="block">
+      <!-- component -->
+    <!-- This is an example component -->
+     
+      <!-- [ Hover-table ] start -->
+      <div class="">
+      <div class="card Recent-Users">
+        <div class="card-header">
+          <h5>Search</h5>
+        </div>
+        <div class="card-block px-0 py-3">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- [ Hover-table ] end -->  
+    </div>
+    <!-- [ Main Content ] end -->
+
+    <script>
+      function doAction(){
+        var table = $("tbody");
+        table.empty()
+        var input = document.querySelector("input[name='search']");
+        var value = input.value;
+        $.ajax({
+    			/* 요청 시작 부분 */
+    			url: `/api/es?q=${value}`, //주소
+    			type: "GET", //전송 타입
+          dataType: "JSON",
+    			
+    			/* 응답 확인 부분 */
+    			success: function(response) {
+    				console.log(response);
+    				console.log("");    				
+            for (i in response){
+              console.log(response[i]._source.title)
+              var row = $("<tr>");
+              row.append($("<td>").html(response[i]._source.title));
+              row.append($("<td>").html("<a href='" + response[i]._source.url + "' class='label theme-bg2 text-white f-12'>See</a>"));
+              table.append(row);
+              }
+            },	
+    			/* 에러 확인 부분 */
+    			error: function(xhr) {
+    				console.log("[error] : " + xhr);
+    				console.log("");    				
+    			},
+    			    			
+    			/* 완료 확인 부분 */
+    			complete:function(data,textStatus) {
+    				console.log("[complete] : " + textStatus);
+    				console.log("");    				
+    			}
+    		});
+      }
+    </script>
+
+{% endblock content %}
