@@ -132,3 +132,4 @@ http://127.0.0.1:5601 -> stack management -> index patterns -> create index patt
 ![image](https://github.com/HyoungSooo/sports_news_dashboard/assets/86239441/43f526f4-b54b-40c5-b60c-2386d2cc1568)
 
 
+스포츠 뉴스를 즐겨보는 사람으로써 여러 포털사이트에 분산되어있는 뉴스를 한 곳에 모아 본다면 뉴스를 검색하는 시간과 노력을 줄일 수 있겠다는 생각에 제작한 크롤링 파이프라인입니다.
